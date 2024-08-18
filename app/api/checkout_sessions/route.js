@@ -1,16 +1,36 @@
 import { NextResponse } from 'next/server'
 import Stripe from 'stripe'
 
-const formatAmountForStripe = (amount, currency) => {
-    return Math.round(amount * 100)
-   }
-
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: '2022-11-15',
 })
 
+const formatAmountForStripe = (amount, currency) => {
+    return Math.round(amount * 100)
+}
+
+export async function GET(req) {
+  const searchParams = req.nextUrl.searchParams
+  const session_id = searchParams.get('session_id')
+
+  try {
+    if (!session_id) {
+      throw new Error('Session ID is required')
+    }
+
+    const checkoutSession = await stripe.checkout.sessions.retrieve(session_id)
+
+    return NextResponse.json(checkoutSession)
+  } 
+  catch (error) {
+    console.error('Error retrieving checkout session:', error)
+    return NextResponse.json({ error: { message: error.message } }, { status: 500 })
+  }
+}
+
 export async function POST(req) {
   try {
+    //checkout session creation here
     const params = {
         mode: 'subscription',
         payment_method_types: ['card'],
@@ -31,11 +51,11 @@ export async function POST(req) {
           },
         ],
         success_url: `${req.headers.get(
-          'Referer',
-        )}result?session_id={CHECKOUT_SESSION_ID}`,
+          'origin',
+        )}/result?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${req.headers.get(
-          'Referer',
-        )}result?session_id={CHECKOUT_SESSION_ID}`,
+          'origin',
+        )}/result?session_id={CHECKOUT_SESSION_ID}`,
       }
       
       const checkoutSession = await stripe.checkout.sessions.create(params)
@@ -50,21 +70,3 @@ export async function POST(req) {
     })
   }
 }
-
-export async function GET(req) {
-    const searchParams = req.nextUrl.searchParams
-    const session_id = searchParams.get('session_id')
-  
-    try {
-      if (!session_id) {
-        throw new Error('Session ID is required')
-      }
-  
-      const checkoutSession = await stripe.checkout.sessions.retrieve(session_id)
-  
-      return NextResponse.json(checkoutSession)
-    } catch (error) {
-      console.error('Error retrieving checkout session:', error)
-      return NextResponse.json({ error: { message: error.message } }, { status: 500 })
-    }
-  }
