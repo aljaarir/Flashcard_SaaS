@@ -119,7 +119,6 @@ export default function Generate() {
   return (
     <Container maxWidth="md">
       <Button 
-            maxWidth="100vw"
             href="/" 
             sx={{
                 mt: 2, 
