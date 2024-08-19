@@ -119,21 +119,21 @@ export default function Generate() {
   return (
     <Container maxWidth="md">
       <Button 
-            href="/" 
-            sx={{
-                mt: 2, 
-                position: "flex",
-                alignContent: "center",
-                alignItems: "center",
-                textAlign: "center",
-                backgroundColor: theme.palette.secondary.contrastText, 
-                color: theme.palette.primary.main, 
-                '&:hover': {
-                backgroundColor: theme.palette.secondary.contrastText,
-                color: theme.palette.primary.main,
-                },
-            }}>
-            Back Page
+        href="/" 
+        sx={{
+          mt: 2, 
+          position: "flex",
+          alignContent: "center",
+          alignItems: "center",
+          textAlign: "center",
+          backgroundColor: theme.palette.primary.main, 
+          color: theme.palette.primary.contrastText, 
+          '&:hover': {
+            backgroundColor: theme.palette.primary.dark,
+            color: theme.palette.primary.contrastText,
+          },
+        }}>
+        Return Home
       </Button>
       <Box sx={{ my: 4 }}>
         <Typography variant="h4" component="h1" gutterBottom href="/generate">
