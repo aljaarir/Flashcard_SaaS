@@ -19,12 +19,31 @@ import {
 } from '@mui/material'
 import { collection, doc, getDoc, writeBatch } from 'firebase/firestore'
 import { db } from '@/firebase' // Adjust the import path accordingly
+import { useUser } from '@clerk/nextjs'
+import { createTheme } from '@mui/material/styles';
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      light: '#676fgd',
+      main: '#424769',
+      dark: '#2d3250',
+      contrastText: '#ffffff',
+    },
+    secondary: {
+      light: '#AD81A7',
+      main: '#6C5E82',
+      dark: '#2E365A',
+      contrastText: '#F8C19B',
+    },
+  },
+});
 
 export default function Generate() {
   const [text, setText] = useState('')
   const [flashcards, setFlashcards] = useState([])
   const [flipped, setFlipped] = useState([])
-
+  const {isLoaded, isSignedIn, user} = useUser()
   const [setName, setSetName] = useState('')
   const [dialogOpen, setDialogOpen] = useState(false)
 
@@ -69,7 +88,7 @@ export default function Generate() {
     }
 
     try {
-      const user = { id: 'user-id' }
+      
       const userDocRef = doc(collection(db, 'users'), user.id)
       const userDocSnap = await getDoc(userDocRef)
 
@@ -99,8 +118,26 @@ export default function Generate() {
 
   return (
     <Container maxWidth="md">
+      <Button 
+            maxWidth="100vw"
+            href="/" 
+            sx={{
+                mt: 2, 
+                position: "flex",
+                alignContent: "center",
+                alignItems: "center",
+                textAlign: "center",
+                backgroundColor: theme.palette.secondary.contrastText, 
+                color: theme.palette.primary.main, 
+                '&:hover': {
+                backgroundColor: theme.palette.secondary.contrastText,
+                color: theme.palette.primary.main,
+                },
+            }}>
+            Back Page
+      </Button>
       <Box sx={{ my: 4 }}>
-        <Typography variant="h4" component="h1" gutterBottom>
+        <Typography variant="h4" component="h1" gutterBottom href="/generate">
           Generate Flashcards
         </Typography>
         <TextField

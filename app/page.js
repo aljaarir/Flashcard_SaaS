@@ -100,7 +100,7 @@ export default function Home() {
             <Typography variant="body1" gutterBottom>
               Create up to 5 flashcards per day.
             </Typography>
-            <Button variant="contained" color="primary" sx={{mt: 2}}>Get Started</Button>
+            <Button variant="contained" color="primary" sx={{mt: 2}} href="/generate">Get Started</Button>
             </Box>
           </Grid>
           <Grid item xs={12} sm={6} md={4}>
