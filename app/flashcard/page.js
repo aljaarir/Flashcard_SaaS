@@ -192,6 +192,43 @@ export default function Flashcard() {
         >
           Match Flashcards
         </Typography>
+        <Button
+          onClick={() => toggleMatchMode()}
+          sx={{
+            mt: 2,
+            mr: 2,
+            position: "flex",
+            alignContent: "center",
+            alignItems: "center",
+            textAlign: "center",
+            backgroundColor: theme.palette.secondary.contrastText,
+            color: theme.palette.primary.main,
+            "&:hover": {
+              backgroundColor: theme.palette.secondary.contrastText,
+              color: theme.palette.primary.main,
+            },
+          }}
+        >
+          Back Page
+        </Button>
+        <Button
+          onClick={() => setFlashcards(shuffleFlashcards(flashcards))}
+          sx={{
+            mt: 2,
+            position: "flex",
+            alignContent: "center",
+            alignItems: "center",
+            textAlign: "center",
+            backgroundColor: theme.palette.secondary.contrastText,
+            color: theme.palette.primary.main,
+            "&:hover": {
+              backgroundColor: theme.palette.secondary.contrastText,
+              color: theme.palette.primary.main,
+            },
+          }}
+        >
+          Shuffle
+        </Button>
         <Grid container spacing={3} sx={{ mt: 4 }}>
           {flashcards.map((flashcard, index) => (
             <Grid item xs={12} sm={6} md={4} key={index}>
@@ -251,43 +288,7 @@ export default function Flashcard() {
             </Grid>
           ))}
         </Grid>
-        <Button
-          onClick={() => toggleMatchMode()}
-          sx={{
-            mt: 2,
-            mr: 2,
-            position: "flex",
-            alignContent: "center",
-            alignItems: "center",
-            textAlign: "center",
-            backgroundColor: theme.palette.secondary.contrastText,
-            color: theme.palette.primary.main,
-            "&:hover": {
-              backgroundColor: theme.palette.secondary.contrastText,
-              color: theme.palette.primary.main,
-            },
-          }}
-        >
-          Back Page
-        </Button>
-        <Button
-          onClick={() => setFlashcards(shuffleFlashcards(flashcards))}
-          sx={{
-            mt: 2,
-            position: "flex",
-            alignContent: "center",
-            alignItems: "center",
-            textAlign: "center",
-            backgroundColor: theme.palette.secondary.contrastText,
-            color: theme.palette.primary.main,
-            "&:hover": {
-              backgroundColor: theme.palette.secondary.contrastText,
-              color: theme.palette.primary.main,
-            },
-          }}
-        >
-          Shuffle
-        </Button>
+        
       </Container>
     );
   }
@@ -309,6 +310,44 @@ export default function Flashcard() {
       >
         Generated Flashcard Preview
       </Typography>
+      <Button
+        href="/flashcards"
+        sx={{
+          mt: 2,
+          position: "flex",
+          alignContent: "center",
+          alignItems: "center",
+          textAlign: "center",
+          backgroundColor: theme.palette.secondary.contrastText,
+          color: theme.palette.primary.main,
+          "&:hover": {
+            backgroundColor: theme.palette.secondary.contrastText,
+            color: theme.palette.primary.main,
+          },
+        }}
+      >
+        Back Page
+      </Button>
+      <Button
+        variant="contained"
+        onClick={() => setMatchMode(true)}
+        sx={{
+          mt: 2,
+          ml: 2,
+          position: "flex",
+          alignContent: "center",
+          alignItems: "center",
+          textAlign: "center",
+          backgroundColor: theme.palette.secondary.contrastText,
+          color: theme.palette.primary.main,
+          "&:hover": {
+            backgroundColor: theme.palette.secondary.contrastText,
+            color: theme.palette.primary.main,
+          },
+        }}
+      >
+        Match
+      </Button>
       <Grid container spacing={3} sx={{ mt: 4 }}>
         {flashcards.map((flashcard, index) => (
           <Grid item xs={12} sm={6} md={4} key={index}>
@@ -364,44 +403,7 @@ export default function Flashcard() {
           </Grid>
         ))}
       </Grid>
-      <Button
-        href="/flashcards"
-        sx={{
-          mt: 2,
-          position: "flex",
-          alignContent: "center",
-          alignItems: "center",
-          textAlign: "center",
-          backgroundColor: theme.palette.secondary.contrastText,
-          color: theme.palette.primary.main,
-          "&:hover": {
-            backgroundColor: theme.palette.secondary.contrastText,
-            color: theme.palette.primary.main,
-          },
-        }}
-      >
-        Back Page
-      </Button>
-      <Button
-        variant="contained"
-        onClick={() => setMatchMode(true)}
-        sx={{
-          mt: 2,
-          ml: 2,
-          position: "flex",
-          alignContent: "center",
-          alignItems: "center",
-          textAlign: "center",
-          backgroundColor: theme.palette.secondary.contrastText,
-          color: theme.palette.primary.main,
-          "&:hover": {
-            backgroundColor: theme.palette.secondary.contrastText,
-            color: theme.palette.primary.main,
-          },
-        }}
-      >
-        Match
-      </Button>
+      
 
     </Container>
   );

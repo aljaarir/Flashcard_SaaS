@@ -21,6 +21,7 @@ import { collection, doc, getDoc, writeBatch } from 'firebase/firestore'
 import { db } from '@/firebase' // Adjust the import path accordingly
 import { useUser } from '@clerk/nextjs'
 import { createTheme } from '@mui/material/styles';
+import { useRouter } from 'next/navigation';
 
 const theme = createTheme({
   palette: {
@@ -44,10 +45,17 @@ export default function Generate() {
   const [flashcards, setFlashcards] = useState([])
   const [flipped, setFlipped] = useState([])
   const {isLoaded, isSignedIn, user} = useUser()
-  const [setName, setSetName] = useState('')
+  const [name, setName] = useState('')
   const [dialogOpen, setDialogOpen] = useState(false)
+  const router = useRouter()
 
   const handleSubmit = async () => {
+    if (!isSignedIn) {
+      alert('Please sign in to generate flashcards.')
+      router.push('/sign-in')
+  
+      return
+    }
     if (!text.trim()) {
       alert('Please enter some text to generate flashcards.')
       return
@@ -82,12 +90,12 @@ export default function Generate() {
   const handleCloseDialog = () => setDialogOpen(false)
 
   const saveFlashcards = async () => {
-    if (!setName.trim()) {
+    if (!name.trim()) {
       alert('Please enter a name for your flashcard set.')
       return
     }
 
-    try {
+    
       
       const userDocRef = doc(collection(db, 'users'), user.id)
       const userDocSnap = await getDoc(userDocRef)
@@ -95,25 +103,32 @@ export default function Generate() {
       const batch = writeBatch(db)
 
       if (userDocSnap.exists()) {
-        const userData = userDocSnap.data()
-        const updatedSets = [...(userData.flashcardSets || []), { name: setName }]
-        batch.update(userDocRef, { flashcardSets: updatedSets })
+        const collections = userDocSnap.data().flashcards || []
+        if (collections.find((f) => f.name === name)) {
+          alert('A flashcard set with the same name already exists. Please choose a different name.')
+          return
+        }
+        else {
+          collections.push({name})
+          batch.set(userDocRef, { flashcards: collections }, {merge: true})
+        }
+        
       } else {
-        batch.set(userDocRef, { flashcardSets: [{ name: setName }] })
+        batch.set(userDocRef, { flashcards: [{name}] })
       }
-
-      const setDocRef = doc(collection(userDocRef, 'flashcardSets'), setName)
-      batch.set(setDocRef, { flashcards })
+      
+      const colRef = collection(userDocRef, name)
+      flashcards.forEach((flashcard) => {
+        const cardDocRef = doc(colRef)
+        batch.set(cardDocRef, flashcard)
+      })
 
       await batch.commit()
-
       alert('Flashcards saved successfully!')
       handleCloseDialog()
-      setSetName('')
-    } catch (error) {
-      console.error('Error saving flashcards:', error)
-      alert('An error occurred while saving flashcards. Please try again.')
-    }
+      setName('')
+      router.push('/flashcards')
+    
   }
 
   return (
@@ -128,6 +143,8 @@ export default function Generate() {
           textAlign: "center",
           backgroundColor: theme.palette.primary.main, 
           color: theme.palette.primary.contrastText, 
+          background: 'linear-gradient(90deg, #6C5E82 0%, #424769 100%)', 
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
           '&:hover': {
             backgroundColor: theme.palette.primary.dark,
             color: theme.palette.primary.contrastText,
@@ -154,12 +171,13 @@ export default function Generate() {
           color="primary"
           onClick={handleSubmit}
           fullWidth
+          sx= {{fontWeight: 'bold', color: '#424769', background: 'linear-gradient(135deg, #E0C3FC 0%, #8EC5FC 100%)'}}
         >
           Generate Flashcards
         </Button>
         {flashcards.length > 0 && (
         <Box sx={{ mt: 4, display: 'flex', justifyContent: 'center' }}>
-            <Button variant="contained" color="secondary" onClick={handleOpenDialog}>
+            <Button variant="contained" color="secondary" onClick={handleOpenDialog} sx= {{fontWeight: 'bold', color: '#424769', background: 'linear-gradient(135deg, #E0C3FC 0%, #8EC5FC 100%)'}}>
                 Save Flashcards
             </Button>
         </Box>
@@ -168,9 +186,7 @@ export default function Generate() {
 
       {flashcards.length > 0 && (
         <Box sx={{ mt: 4 }}>
-          <Typography variant="h5" component="h2" gutterBottom>
-            Generated Flashcards
-          </Typography>
+          
           <Grid container spacing={2}>
             {flashcards.map((flashcard, index) => (
               <Grid item xs={12} sm={6} md={4} key={index}>
@@ -237,8 +253,8 @@ export default function Generate() {
             label="Set Name"
             type="text"
             fullWidth
-            value={setName}
-            onChange={(e) => setSetName(e.target.value)}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             />
         </DialogContent>
         <DialogActions>

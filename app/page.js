@@ -34,7 +34,7 @@ export default function Home() {
       <AppBar position="static" sx={{ background: 'linear-gradient(90deg, #6C5E82 0%, #424769 100%)', boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)' }}>
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1, fontWeight: 'bold', letterSpacing: '0.1em' }}>
-          
+            Flashcards4U
           </Typography>
           <SignedOut>
             <Button color="inherit" href="/sign-in" sx={{ fontWeight: 'bold' }}>Login</Button>
@@ -54,10 +54,10 @@ export default function Home() {
         <Typography variant="h5" component="h2" gutterBottom sx={{ color: '#6C5E82' }}>
         Turn your study grind into a memory game with Flashcards4U! Where mastering subjects is as easy as flipping a card!
         </Typography>
-        <Button variant="contained" color="primary" sx={{ mt: 2, mr: 2, boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)' }} href="/generate">
+        <Button variant="contained" color="primary" sx={{ borderRadius: '10px', mt: 2, mr: 2, boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)' }} href="/generate">
           Get Started
         </Button>
-        <Button variant="outlined" color="primary" sx={{ mt: 2, boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)' }}>
+        <Button variant="outlined" color="primary" sx={{ borderRadius: '10px', mt: 2, boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)' }}>
           Learn More
         </Button>
       </Box>
@@ -104,7 +104,7 @@ export default function Home() {
               <Typography variant="body1" gutterBottom>
                 Create up to 5 flashcards per day.
               </Typography>
-              <Button variant="contained" color="secondary" sx={{ mt: 2, boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)' }} href="/generate">Try it out!</Button>
+              <Button variant="contained" color="secondary" sx={{ borderRadius: '10px', mt: 2, boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)' }} href="/generate">Try it out!</Button>
             </Box>
           </Grid>
           <Grid item xs={12} sm={6} md={4}>
@@ -114,7 +114,7 @@ export default function Home() {
               <Typography variant="body1" gutterBottom>
                 Unlimited flashcards and storage.
               </Typography>
-              <Button variant="contained" color="secondary" sx={{ mt: 2, boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)' }} onClick={handleSubmit}>Subscribe</Button>
+              <Button variant="contained" color="secondary" sx={{ borderRadius: '10px', mt: 2, boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)' }} onClick={handleSubmit}>Subscribe</Button>
             </Box>
           </Grid>
         </Grid>

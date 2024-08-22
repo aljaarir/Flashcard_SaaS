@@ -24,21 +24,15 @@ const theme = createTheme({
 export default function SignUpPage() {
     return (
         <Container maxWidth="sm">
-            <AppBar position="static" >
+            <AppBar position="static" sx={{ background: 'linear-gradient(90deg, #6C5E82 0%, #424769 100%)', boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)' }}>
                 <Toolbar>
                     <Typography variant="h6" style={{flexGrow:1}} component="div" sx={{ flexGrow: 1 }}>
                         Flashcard SaaS
                     </Typography>
-                    <Button color="inherit">
-                        <Link href="/sign-in" passHref>
-                            Login
-                        </Link>
+                    <Button color="inherit" href="/sign-in" sx={{ fontWeight: 'bold' }}>
+                            Login                      
                     </Button>
-                    <Button color="inherit">
-                        <Link href="/sign-up" passHref>
-                            Sign Up
-                        </Link>
-                    </Button>
+                    
                 </Toolbar>
             </AppBar>
             <Button 
@@ -50,11 +44,13 @@ export default function SignUpPage() {
                     alignContent: "center",
                     alignItems: "center",
                     textAlign: "center",
-                    backgroundColor: theme.palette.secondary.contrastText, 
-                    color: theme.palette.primary.main, 
+                    backgroundColor: theme.palette.primary.main, 
+                    color: theme.palette.primary.contrastText, 
+                    background: 'linear-gradient(90deg, #6C5E82 0%, #424769 100%)', 
+                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
                     '&:hover': {
-                    backgroundColor: theme.palette.secondary.contrastText,
-                    color: theme.palette.primary.main,
+                        backgroundColor: theme.palette.primary.dark,
+                        color: theme.palette.primary.contrastText,
                     },
                 }}>
                 Back Page
