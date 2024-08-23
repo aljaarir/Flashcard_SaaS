@@ -73,22 +73,23 @@ export default function Flashcards() {
     return(
         <Container>
             <Button 
-            maxWidth="100vw"
-            href="/" 
-            sx={{
+                href="/" 
+                sx={{
                 mt: 2, 
                 position: "flex",
                 alignContent: "center",
                 alignItems: "center",
                 textAlign: "center",
-                backgroundColor: theme.palette.secondary.contrastText, 
-                color: theme.palette.primary.main, 
+                backgroundColor: theme.palette.primary.main, 
+                color: theme.palette.primary.contrastText, 
+                background: 'linear-gradient(90deg, #6C5E82 0%, #424769 100%)', 
+                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
                 '&:hover': {
-                backgroundColor: theme.palette.secondary.contrastText,
-                color: theme.palette.primary.main,
+                    backgroundColor: theme.palette.primary.dark,
+                    color: theme.palette.primary.contrastText,
                 },
-            }}>
-            Back Page
+                }}>
+                Return Home
             </Button>
 
             <Typography variant="h2" component="h1" sx={{mt: 4, textAlign: "center", position: "relative"}}>Saved Flashcard Sets</Typography>

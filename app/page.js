@@ -1,6 +1,7 @@
 'use client'
 
-import { AppBar, Button, Container, Toolbar, Typography, Box, Grid } from "@mui/material";
+import * as React from 'react';
+import { AppBar, Button, Container, Toolbar, Typography, Box, Grid, Menu, MenuItem, Link} from "@mui/material";
 import getStripe from "@/utils/get-stripe";
 import Head from "next/head";
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
@@ -22,7 +23,18 @@ export default function Home() {
       console.warn(error.message);
     }
   };
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
   
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <Container maxWidth="lg" sx={{ backgroundColor: '#f9f9f9', borderRadius: '12px', p: 4, boxShadow: '0 8px 16px rgba(0, 0, 0, 0.1)' }}>
       <Head>
@@ -33,9 +45,30 @@ export default function Home() {
 
       <AppBar position="static" sx={{ background: 'linear-gradient(90deg, #6C5E82 0%, #424769 100%)', boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)' }}>
         <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1, fontWeight: 'bold', letterSpacing: '0.1em' }}>
-            Flashcards4U
+        <Typography variant="h6" component="div" sx={{ flexGrow: 1, fontWeight: 'bold', letterSpacing: '0.1em' }}>
+          <Button
+            id="basic-button"
+            aria-controls={open ? 'basic-menu' : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? 'true' : undefined}
+            onClick={handleClick}
+            sx={{ color: 'black' }}
+          >
+            Dashboard
+          </Button>
           </Typography>
+          <Menu
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            MenuListProps={{
+              'aria-labelledby': 'basic-button',
+            }}
+          >
+            <MenuItem onClick={handleClose}><Link color="inherit" underline="none" href="/generate">Generate Flashcards</Link></MenuItem>
+            <MenuItem onClick={handleClose}><Link color="inherit" underline="none" href="/flashcards">View saved Flashcard Groups</Link></MenuItem>
+          </Menu>
           <SignedOut>
             <Button color="inherit" href="/sign-in" sx={{ fontWeight: 'bold' }}>Login</Button>
             <Button color="inherit" href="/sign-up" sx={{ fontWeight: 'bold' }}>Sign Up</Button>
@@ -52,7 +85,7 @@ export default function Home() {
           Welcome to Flashcards4U
         </Typography>
         <Typography variant="h5" component="h2" gutterBottom sx={{ color: '#6C5E82' }}>
-        Turn your study grind into a memory game with Flashcards4U! Where mastering subjects is as easy as flipping a card!
+          Turn your study grind into a memory game with Flashcards4U! Where mastering subjects is as easy as flipping a card!
         </Typography>
         <Button variant="contained" color="primary" sx={{ borderRadius: '10px', mt: 2, mr: 2, boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)' }} href="/generate">
           Get Started
@@ -72,7 +105,7 @@ export default function Home() {
               Flashcard Generation
             </Typography>
             <Typography variant="body1" gutterBottom textAlign='center' sx={{ color: '#333' }}>
-            Transform your notes into powerful flashcards with just one click, making studying easier and more efficient.
+              Transform your notes into powerful flashcards with just one click, making studying easier and more efficient.
             </Typography>
           </Grid>
           <Grid item xs={12} sm={6} md={4}>
@@ -80,7 +113,7 @@ export default function Home() {
               Study Mode
             </Typography>
             <Typography variant="body1" gutterBottom textAlign='center' sx={{ color: '#333' }}>
-            Immerse yourself in a clean, distraction-free interface that keeps you fully engaged in your study sessions.
+              Immerse yourself in a clean, distraction-free interface that keeps you fully engaged in your study sessions.
             </Typography>
           </Grid>
           <Grid item xs={12} sm={6} md={4}>
